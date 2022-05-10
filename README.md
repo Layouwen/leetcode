@@ -279,9 +279,50 @@ var removeNthFromEnd = function (head, n) {
 
 判断p后面的节点是否相同，相同就删除，不相同就让p往后走一步继续判断
 
+```js
+var deleteDuplicates = function (head) {
+  if (!head) return null
+  let p = head
+  while (p.next) {
+    if (p.val === p.next.val) {
+      p.next = p.next.next
+    } else {
+      p = p.next
+    }
+  }
+  return head
+}
+```
+
 ## 82 删除链表重复节点II
 
-判断ret下一个节点是否重复，重复则找到下一个不重复的节点，指向他
+定义 p 保存为查找开始的节点，判断 p 下一个节点是否重复，重复则可以定义一个 q 为找到下一个不重复的节点，让 p 指向找到的不重复节点
+
+```js
+var deleteDuplicates = function (head) {
+  if (!head) return null
+  let ret = new ListNode(0, head)
+  let p = ret,
+    q
+  // 只要 p 有下一个节点就一直循环
+  while (p.next) {
+    // 判断 p 后面的节点有没有重复
+    if (p.next.next && p.next.val === p.next.next.val) {
+      // 发现重复的话，就定义 q 节点，找到不重复的节点赋值给 q
+      q = p.next.next
+      while (q && q.val === p.next.val) {
+        q = q.next
+      }
+      // 将 p 的下一个节点移动到不重复的节点 q 上
+      p.next = q
+    } else {
+      // 如果 p 后面的节点没有重复，则直接往后走
+      p = p.next
+    }
+  }
+  return ret.next
+}
+```
 
 # 队列
 
